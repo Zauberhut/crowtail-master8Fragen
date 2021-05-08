@@ -1,5 +1,5 @@
 function solveC () {
-    list[2] = true
+    list[Index] = true
 }
 function checksolution (num: number) {
     solve(num)
@@ -19,7 +19,7 @@ function solveE () {
 }
 input.onButtonPressed(Button.A, function () {
     if (solvingnow == false) {
-        if (Index > 4) {
+        if (Index > 7) {
             Index = 0
             basic.showString("A")
         } else if (Index == 0) {
@@ -84,8 +84,8 @@ function solve (num: number) {
     if (num == 7) {
         solveH()
     }
-    solvingnow = false
     AnzeigeSpielstand()
+    solvingnow = false
 }
 function solveF () {
     list[5] = true
@@ -96,22 +96,24 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 function solveA () {
-    ZahleingabeCounter = 0
-    while (!(input.buttonIsPressed(Button.A))) {
-        if (input.buttonIsPressed(Button.B)) {
-            ZahleingabeCounter += 1
-            basic.showNumber(ZahleingabeCounter)
+    if (solvingnow == true) {
+        ZahleingabeCounter = 0
+        while (!(input.buttonIsPressed(Button.A))) {
+            if (input.buttonIsPressed(Button.B)) {
+                ZahleingabeCounter += 1
+                basic.showNumber(ZahleingabeCounter)
+            }
         }
-    }
-    if (ZahleingabeCounter == 3) {
-        basic.showIcon(IconNames.Yes)
-        list[Index] = true
-    } else {
-        for (let index = 0; index < 4; index++) {
-            basic.showIcon(IconNames.No)
-            basic.pause(50)
-            basic.clearScreen()
-            basic.pause(50)
+        if (ZahleingabeCounter == 3) {
+            basic.showIcon(IconNames.Yes)
+            list[Index] = true
+        } else {
+            for (let index = 0; index < 4; index++) {
+                basic.showIcon(IconNames.No)
+                basic.pause(50)
+                basic.clearScreen()
+                basic.pause(50)
+            }
         }
     }
 }
@@ -120,6 +122,7 @@ function AnzeigeSpielstand () {
     music.setVolume(255)
     basic.clearScreen()
     if (list[0] == true) {
+        music.playTone(262, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(0, 0)
             led.unplot(1, 0)
@@ -130,6 +133,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[1] == true) {
+        music.playTone(294, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(3, 0)
             led.unplot(4, 0)
@@ -140,6 +144,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[2] == true) {
+        music.playTone(330, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(0, 1)
             led.unplot(1, 1)
@@ -150,6 +155,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[3] == true) {
+        music.playTone(349, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(3, 1)
             led.unplot(4, 1)
@@ -160,6 +166,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[4] == true) {
+        music.playTone(392, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(0, 2)
             led.unplot(1, 2)
@@ -170,6 +177,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[5] == true) {
+        music.playTone(440, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(3, 2)
             led.unplot(4, 2)
@@ -180,6 +188,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[6] == true) {
+        music.playTone(494, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(0, 3)
             led.unplot(1, 3)
@@ -190,6 +199,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[7] == true) {
+        music.playTone(523, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(3, 3)
             led.unplot(4, 3)
@@ -203,7 +213,7 @@ function AnzeigeSpielstand () {
     music.setBuiltInSpeakerEnabled(false)
 }
 function solveB () {
-    list[1] = true
+    list[Index] = true
 }
 function SOS () {
     basic.clearScreen()
@@ -247,7 +257,7 @@ let Index = 0
 basic.showIcon(IconNames.Skull)
 basic.showString("MASTER:BIT")
 basic.showIcon(IconNames.Angry)
-Index = 5
+Index = 8
 solvingnow = false
 // Liste statt einzelnen Variabeln um die Lösungsvariabeln zu speichern
 list = [false, false, false, false, false, false, false, false, false]
