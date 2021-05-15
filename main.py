@@ -57,15 +57,6 @@ function solveD () {
 function solveG () {
     list[6] = true
 }
-function hacked () {
-    for (let Index = 0; Index <= list.length; Index++) {
-        if (list[Index] == true || gewonnen == true) {
-            gewonnen = true
-        } else {
-            gewonnen = false
-        }
-    }
-}
 // ruft den überprüfungsprozess allgemein auf
 function solve (num: number) {
     solvingnow = true
@@ -105,7 +96,26 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 function solveA () {
-    list[Index] = true
+    if (solvingnow == true) {
+        ZahleingabeCounter = 0
+        while (!(input.buttonIsPressed(Button.A))) {
+            if (input.buttonIsPressed(Button.B)) {
+                ZahleingabeCounter += 1
+                basic.showNumber(ZahleingabeCounter)
+            }
+        }
+        if (ZahleingabeCounter == 3) {
+            basic.showIcon(IconNames.Yes)
+            list[Index] = true
+        } else {
+            for (let index = 0; index < 4; index++) {
+                basic.showIcon(IconNames.No)
+                basic.pause(50)
+                basic.clearScreen()
+                basic.pause(50)
+            }
+        }
+    }
 }
 function AnzeigeSpielstand () {
     music.setBuiltInSpeakerEnabled(true)
@@ -199,34 +209,8 @@ function AnzeigeSpielstand () {
             basic.pause(100)
         }
     }
-    if (list[8] == true) {
-        music.playTone(587, music.beat(BeatFraction.Eighth))
-        for (let index = 0; index < 4; index++) {
-            led.unplot(0, 4)
-            led.unplot(1, 4)
-            basic.pause(100)
-            led.plot(0, 4)
-            led.plot(1, 4)
-            basic.pause(100)
-        }
-    }
-    if (list[9] == true) {
-        music.playTone(523, music.beat(BeatFraction.Eighth))
-        for (let index = 0; index < 4; index++) {
-            led.unplot(3, 4)
-            led.unplot(4, 4)
-            basic.pause(100)
-            led.plot(3, 4)
-            led.plot(4, 4)
-            basic.pause(100)
-        }
-    }
     soundExpression.spring.playUntilDone()
     music.setBuiltInSpeakerEnabled(false)
-    hacked()
-    if (gewonnen == true) {
-    	
-    }
 }
 function solveB () {
     list[Index] = true
@@ -265,36 +249,16 @@ function HaenschenKlein () {
     music.playMelody("C E G G C C C - ", 120)
     music.setBuiltInSpeakerEnabled(false)
 }
-let Index = 0
-let gewonnen = false
+let ZahleingabeCounter = 0
 let gotsolution = false
-let solvingnow = false
 let list: boolean[] = []
-let AnzahlAufgaben = 2
+let solvingnow = false
+let Index = 0
 basic.showIcon(IconNames.Skull)
 basic.showString("MASTER:BIT")
 basic.showIcon(IconNames.Angry)
-for (let Index = 0; Index <= AnzahlAufgaben; Index++) {
-    list.push(false)
-}
+Index = 8
 solvingnow = false
+// Liste statt einzelnen Variabeln um die Lösungsvariabeln zu speichern
+list = [false, false, false, false, false, false, false, false, false]
 gotsolution = false
-gewonnen = false
-// unklar für was die Variable Index steht.
-Index = AnzahlAufgaben
-basic.forever(function () {
-    while (!(gewonnen)) {
-        led.plotBrightness(2, 0, 99)
-        led.plotBrightness(2, 1, 99)
-        led.plotBrightness(2, 2, 99)
-        led.plotBrightness(2, 3, 99)
-        led.plotBrightness(2, 4, 99)
-        basic.pause(50)
-        led.unplot(2, 0)
-        led.unplot(2, 1)
-        led.unplot(2, 2)
-        led.unplot(2, 3)
-        led.unplot(2, 4)
-        basic.pause(50)
-    }
-})
