@@ -7,12 +7,16 @@ function checksolution (num: number) {
         music.setBuiltInSpeakerEnabled(true)
         music.playMelody("C E G C5 C5 C5 - - ", 500)
         basic.showIcon(IconNames.Yes)
-        gotsolution = false
+        gotsolution = true
     } else {
         music.playTone(131, music.beat(BeatFraction.Whole))
         basic.showIcon(IconNames.Skull)
+        gotsolution = false
     }
     AnzeigeSpielstand()
+}
+function solveJ () {
+    list[9] = true
 }
 function solveE () {
     list[4] = true
@@ -51,6 +55,9 @@ input.onButtonPressed(Button.A, function () {
 function solveH () {
     list[7] = true
 }
+function solveI () {
+    list[8] = true
+}
 function solveD () {
     list[3] = true
 }
@@ -65,12 +72,17 @@ function hacked () {
             gewonnen = false
         }
     }
+    if (gewonnen) {
+        basic.showIcon(IconNames.Heart)
+    }
 }
 // ruft den überprüfungsprozess allgemein auf
 function solve (num: number) {
     solvingnow = true
     if (num == 0) {
+        basic.showIcon(IconNames.SmallHeart)
         solveA()
+        basic.showString("" + (gotsolution))
     }
     if (num == 1) {
         solveB()
@@ -93,8 +105,14 @@ function solve (num: number) {
     if (num == 7) {
         solveH()
     }
-    AnzeigeSpielstand()
+    if (num == 8) {
+        solveI()
+    }
+    if (num == 9) {
+        solveJ()
+    }
     solvingnow = false
+    AnzeigeSpielstand()
 }
 function solveF () {
     list[5] = true
@@ -105,9 +123,28 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 function solveA () {
-    list[Index] = true
+    if (solvingnow == true) {
+        ZahleingabeCounter = 0
+        basic.showNumber(ZahleingabeCounter)
+        while (!(input.buttonIsPressed(Button.A))) {
+            if (input.buttonIsPressed(Button.B)) {
+                ZahleingabeCounter += 1
+                basic.showNumber(ZahleingabeCounter)
+            }
+        }
+        if (ZahleingabeCounter == 3 && input.buttonIsPressed(Button.A)) {
+            basic.showIcon(IconNames.Yes)
+            list[Index] = true
+            gotsolution = true
+            solvingnow = false
+        } else {
+            basic.showIcon(IconNames.No)
+            solvingnow = false
+        }
+    }
 }
 function AnzeigeSpielstand () {
+    AnzeigeSpielstandAktiv = true
     music.setBuiltInSpeakerEnabled(true)
     music.setVolume(255)
     basic.clearScreen()
@@ -211,7 +248,7 @@ function AnzeigeSpielstand () {
         }
     }
     if (list[9] == true) {
-        music.playTone(523, music.beat(BeatFraction.Eighth))
+        music.playTone(659, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
             led.unplot(3, 4)
             led.unplot(4, 4)
@@ -222,6 +259,8 @@ function AnzeigeSpielstand () {
         }
     }
     soundExpression.spring.playUntilDone()
+    AnzeigeSpielstandAktiv = false
+    solvingnow = false
     music.setBuiltInSpeakerEnabled(false)
     hacked()
     if (gewonnen == true) {
@@ -265,6 +304,8 @@ function HaenschenKlein () {
     music.playMelody("C E G G C C C - ", 120)
     music.setBuiltInSpeakerEnabled(false)
 }
+let ZahleingabeCounter = 0
+let AnzeigeSpielstandAktiv = false
 let Index = 0
 let gewonnen = false
 let gotsolution = false
@@ -272,7 +313,7 @@ let solvingnow = false
 let list: boolean[] = []
 let AnzahlAufgaben = 2
 basic.showIcon(IconNames.Skull)
-basic.showString("MASTER:BIT")
+basic.showString("")
 basic.showIcon(IconNames.Angry)
 for (let Index = 0; Index <= AnzahlAufgaben; Index++) {
     list.push(false)
@@ -282,19 +323,20 @@ gotsolution = false
 gewonnen = false
 // unklar für was die Variable Index steht.
 Index = AnzahlAufgaben
+AnzeigeSpielstandAktiv = false
 basic.forever(function () {
-    while (!(gewonnen)) {
+    while (AnzeigeSpielstandAktiv == true) {
         led.plotBrightness(2, 0, 99)
         led.plotBrightness(2, 1, 99)
         led.plotBrightness(2, 2, 99)
         led.plotBrightness(2, 3, 99)
         led.plotBrightness(2, 4, 99)
-        basic.pause(50)
+        basic.pause(100)
         led.unplot(2, 0)
         led.unplot(2, 1)
         led.unplot(2, 2)
         led.unplot(2, 3)
         led.unplot(2, 4)
-        basic.pause(50)
+        basic.pause(100)
     }
 })
